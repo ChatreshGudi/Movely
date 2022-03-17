@@ -1,1 +1,1 @@
-# Animate.JS
+# Animator.JS
