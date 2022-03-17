@@ -1,0 +1,41 @@
+# Program 1
+
+const circle1 = new Circle("50","c1", 200,70);
+circle1.setBG("white");
+circle1.setBorder("black", 5);
+
+const circle2 = new Circle(20, "c2", 200, 70);
+circle2.setBG("#730000");
+
+const circle3 = new Circle("50","c3", 300,70);
+circle3.setBG("white");
+circle3.setBorder("black", 5);
+
+const circle4 = new Circle(20, "c4", 300, 70);
+circle4.setBG("#730000");
+
+const nose = new Polygon("250,100 220,230 280,230", "t1");
+nose.setBG("#ffb694");
+nose.setBorder("black", 2);
+
+
+## Program 2
+
+const r1 = new Rectangle(100, 100, "r1", 100, 100);
+r1.setRadius(10);
+r1.animate("fill", "blue;black;blue", "5s", "2");
+r1.animate("x", "0;100;0", "1s", "6");
+
+## Program 3
+const canvas = new Canvas();
+canvas.setBG("black");
+const r1 = new Rectangle(150, 150, "r1", 100, 100);
+r1.setRadius("50%");
+r1.setBG("black");
+r1.setBorder("white", 10);
+r1.stroke("5s", "3", "stroking");
+r1.animate("rx", "0px;75px", "5s", "3");
+r1.set("stroke", "blue", "stroking.begin");
+r1.set("stroke", "skyblue", "stroking.repeat(1)");
+r1.set("stroke", "pink", "stroking.repeat(2)");
+
