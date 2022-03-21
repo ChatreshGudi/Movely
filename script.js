@@ -25,17 +25,17 @@ function stop(){
     canvas.pauseAnimations();
 }
 
-function saveSVG(){
-    const newHandle = window.showSaveFilePicker();
+async function saveSVG(){
+    const newHandle = await window.showSaveFilePicker();
 
     // create a FileSystemWritableFileStream to write to
-    const writableStream = newHandle.createWritable();
+    const writableStream = await newHandle.createWritable();
     let file = "<svg>"+document.getElementById("canvas").innerHTML+"</svg>";
     // write our file
-    writableStream.write(file);
+    await writableStream.write(file);
 
     // close the file and write the contents to disk.
-    writableStream.close();
+    await writableStream.close();
 }
 
 //////////
