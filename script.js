@@ -25,6 +25,22 @@ function stop(){
     canvas.pauseAnimations();
 }
 
+function saveSVG(){
+    const newHandle = window.showSaveFilePicker();
+
+    // create a FileSystemWritableFileStream to write to
+    const writableStream = newHandle.createWritable();
+    let file = "<svg>"+document.getElementById("canvas").innerHTML+"</svg>";
+    // write our file
+    writableStream.write(file);
+
+    // close the file and write the contents to disk.
+    writableStream.close();
+}
+
+//////////
+// API //
+////////
 class Canvas{
     constructor (){
         this.background = "white";
