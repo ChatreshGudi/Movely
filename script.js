@@ -39,6 +39,7 @@ async function saveSVG(){
     // create a FileSystemWritableFileStream to write to
     const writableStream = await newHandle.createWritable();
     let file = "<svg>"+document.getElementById("canvas").innerHTML+"</svg>";
+    console.log(file);
     // write our file
     await writableStream.write(file);
 
@@ -107,7 +108,7 @@ class Circle extends Shape{
         this.radius = radius;
         this.x =x;
         this.y = y;
-        this.canvas.innerHTML += "<circle id='"+this.name+"' , r = "+this.radius+" , cx = "+this.x+" , cy = "+ this.y + "></circle> "; // intializing the element
+        this.canvas.innerHTML += "<circle id='"+this.name+"' ,r = "+this.radius+" , cx = "+this.x+" , cy = "+ this.y + "></circle> "; // intializing the element
         this.self = document.getElementById(this.name);
         this.bgcolor = "black";
         this.bdrcolor = "black";
