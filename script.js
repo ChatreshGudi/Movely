@@ -26,7 +26,15 @@ function stop(){
 }
 
 async function saveSVG(){
-    const newHandle = await window.showSaveFilePicker();
+    const newHandle = await window.showSaveFilePicker({
+        suggestedName:'Animation.svg',
+        types: [{
+          description: 'SVG',
+          accept: {
+            'svg': ['.svg'],
+          },
+        }],
+      });
 
     // create a FileSystemWritableFileStream to write to
     const writableStream = await newHandle.createWritable();
