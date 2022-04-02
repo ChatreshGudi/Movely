@@ -56,7 +56,7 @@ button.button:hover{
     border-radius: 5px;
     font-weight: bold;
 }
-#editor{
+#blockEdit{
     width: 100%;
     background: white;
     overflow: auto;

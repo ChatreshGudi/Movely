@@ -17,16 +17,18 @@
                     <button class = "button" onclick="stop();">Stop</button>
                     <button class = "button" onclick="run();">Run</button>
                 </div>
-                <textarea id = "editor" spellcheck="false"></textarea>
+                <div id="blockEdit"></div>
             </div>
 
             <svg id="canvas" >
             </svg>
         </div>
-        <div class = "OptionBar">
+        <!-- <div class = "OptionBar">
             <button onclick = "saveSVG();">Download SVG</button>
             <button>Download JavaScript</button>
-        </div>
+        </div> -->
+        <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+        <script src="https://unpkg.com/blockly"></script>
         <script src="script.js"></script>
     </body>
 </html>
