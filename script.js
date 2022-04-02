@@ -200,3 +200,16 @@ class Path extends Shape{
         this.self = document.getElementById(this.name);
     }
 }
+
+class Text extends Shape{
+    constructor(name, text, x, y){
+
+        super();
+        this.canvas = document.getElementById("canvas");
+        this.name = name;
+        this.text = text;
+        this.canvas.innerHTML += "<text x = "+x+", y = "+y+", id = "+name+">"+this.text+"</text>";
+        this.self = document.getElementById(this.name);
+        
+    }
+}
