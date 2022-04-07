@@ -212,4 +212,9 @@ class Text extends Shape{
         this.self = document.getElementById(this.name);
         
     }
+
+    stroke( time, repeat, name, begin ="0s"){
+        this.self.setAttribute("stroke-dasharray", this.self.getAttribute("font-size")*5);
+        this.animate("stroke-dashoffset", String(this.self.getAttribute("font-size")*5)+";0", time, repeat, begin, name);
+    }
 }
