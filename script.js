@@ -27,12 +27,16 @@ function stop(){
 
 async function saveSVG(){
     const newHandle = await window.showSaveFilePicker({
+        types: [{
+            description: 'Standard Vector Graphics file',
+            accept: {'svg/plain': ['.svg']},
+          }],
         suggestedName:'Animation.svg'
       });
 
     // create a FileSystemWritableFileStream to write to
     const writableStream = await newHandle.createWritable();
-    let file = "<svg>"+document.getElementById("canvas").innerHTML+"</svg>";
+    let file = "<svg version='1.1' xmlns='http://www.w3.org/2000/svg' width='1000' height='1000'>"+"<style></style>"+document.getElementById("canvas").innerHTML+"</svg>";
     console.log(file);
     // write our file
     await writableStream.write(file);
@@ -49,6 +53,7 @@ class Canvas{
         this.background = "white";
         this.canvas = document.getElementById("canvas");
     }
+
     setBG(bgcolor){
         this.background = bgcolor;
         this.canvas.style["background"] = this.background;
@@ -64,88 +69,102 @@ class Shape{
         this.bdrcolor = "black";
         this.bdrsize = "1px";
     }
+
     setBG(bgcolor){
         this.bgcolor = bgcolor;
         this.self.setAttribute("fill", this.bgcolor);
     }
+
     setBorder(bdrcolor, bdrsize){
         this.bdrcolor =bdrcolor;
         this.bdrsize = bdrsize;
         this.self.setAttribute("stroke", this.bdrcolor);
         this.self.setAttribute("stroke-width", this.bdrsize);
     }
-    animate(attributename, value, time, repeat, begin ="0s", name){
+
+    animate(name, attributename, value, time, repeat, begin ="0s"){
         this.self.innerHTML += "<animate id = "+name+" attributeName = "+attributename+" values = "+value+" dur = "+time+" repeatCount = "+repeat+" begin = "+ begin +" restart = 'always' />";
     }
-    move(x,y, time, repeat, begin = "0s", name = ""){
+
+    move(name = "",x, y, time, repeat, begin = "0s"){
         this.animate("x", String(this.x+x), time, repeat, begin, name);
         this.animate("y", String(this.y+y), time, repeat, begin, name);
-
     }
-    stroke( time, repeat, name, begin ="0s"){
+
+    stroke(name, time, repeat, begin ="0s"){
         this.self.setAttribute("stroke-dasharray", this.self.getTotalLength());
         this.animate("stroke-dashoffset", String(this.self.getTotalLength())+";0", time, repeat, begin, name);
     }
+
     set(attributename, value, begin){
         this.self.innerHTML += "<set attributeName = "+attributename+" to = "+value+" begin = "+begin+"> </set>";
     }
 }
 
 class Circle extends Shape{
-    constructor(radius, name, x, y){
+    constructor(name, radius, x, y){
+
         super();
         this.canvas = document.getElementById("canvas");
-
-        this.name = name;
+        
         // Initializing the properties
-
+        
+        this.name = name;
         this.radius = radius;
         this.x =x;
         this.y = y;
-        this.canvas.innerHTML += "<circle id='"+this.name+"' ,r = "+this.radius+" , cx = "+this.x+" , cy = "+ this.y + "></circle> "; // intializing the element
-        this.self = document.getElementById(this.name);
         this.bgcolor = "black";
         this.bdrcolor = "black";
         this.bdrsize = "1px"; //bdr stands for Border
+        
+        this.canvas.innerHTML += "<circle id='"+this.name+"' ,r = "+this.radius+" , cx = "+this.x+" , cy = "+ this.y + "></circle> "; // intializing the element
+        this.self = document.getElementById(this.name);
     }
 }
 
 class Ellipse extends Shape{
-    constructor(rx, ry, name, x, y){
+    constructor(name, rx, ry, x, y){
         
         super();
-
         this.canvas = document.getElementById("canvas");
 
+        // Initializing the properties
+        
+        this.name = name;
         this.x = x;
         this.y = y;
         this.rx = rx;
         this.ry = ry;
-        this.name = name;
-
-        this.bdrcolor;
-        this.bdrsize;
-        this.bgcolor;
+        
+        this.bdrcolor; //bdr stands for Border
+        this.bdrsize; //bdr stands for Border
+        this.bgcolor; //bg stands for Background
 
         this.canvas.innerHTML += "<ellipse id = "+this.name+" rx = "+this.rx+" ry = "+this.ry+"  cx = "+this.x+" cy = "+this.y+" ></ellipse>";
         this.self = document.getElementById(this.name);
+
     }
 }
 
 class Rectangle extends Shape{
-    constructor(height, breadth, name, x, y){
+    constructor(name, height, breadth, x, y){
+
         super();
         this.canvas = document.getElementById("canvas");
+        
+        // Initializing the properties
+        
         this.name = name;
         this.height = height;
         this.breadth = breadth;
         this.x =x;
         this.y = y;
+        this.bgcolor;
+        this.bdrcolor; //bdr stands for Border
+        this.bdrsize; //bdr stands for Border
+
         this.canvas.innerHTML += "<rect id = "+this.name+" x ="+ this.x +" y = "+this.y +" height = "+this.height+" width = "+this.breadth+" ></rect>";
         this.self = document.getElementById(this.name);
-        this.bgcolor = "black";
-        this.bdrcolor = "black";
-        this.bdrsize = "1px";
         
     }
     setRadius(r){
@@ -156,34 +175,36 @@ class Rectangle extends Shape{
 }
 
 class Polygon extends Shape{
-    constructor(points, name){
+    constructor(name, points){
         
         super();
         this.canvas = document.getElementById("canvas");
 
-        this.points = points;
+        // Initializing the properties
+        
         this.name = name;
-
-        console.log(String(this.points));
+        this.points = points; 
 
         this.canvas.innerHTML += "<polygon id = "+this.name+"  points = '"+this.points+"' />";
         this.self = document.getElementById(this.name);
+
     }
 }
 
 class Polyline extends Shape{
-    constructor(points, name){
+    constructor(name, points){
         
         super();
         this.canvas = document.getElementById("canvas");
 
-        this.points = points;
+        // Initializing the properties
+        
         this.name = name;
-
-        console.log(String(this.points));
+        this.points = points;
 
         this.canvas.innerHTML += "<polyline id = "+this.name+"  points = '"+this.points+"' />";
         this.self = document.getElementById(this.name);
+
     }
 }
 
@@ -193,11 +214,14 @@ class Path extends Shape{
         super();
         this.canvas = document.getElementById("canvas");
         
+        // Initializing the properties
+
         this.name = name;
         this.path = path;
 
         this.canvas.innerHTML += "<path id = "+this.name+" d = '"+this.path+"' ></path>";
         this.self = document.getElementById(this.name);
+
     }
 }
 
@@ -206,8 +230,12 @@ class Text extends Shape{
 
         super();
         this.canvas = document.getElementById("canvas");
+
+        // Initializing the properties
+
         this.name = name;
         this.text = text;
+
         this.canvas.innerHTML += "<text x = "+x+", y = "+y+", id = "+name+">"+this.text+"</text>";
         this.self = document.getElementById(this.name);
         
