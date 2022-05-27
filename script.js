@@ -13,8 +13,6 @@ function run(){
     resetCanvas();
     document.getElementById("canvas").unpauseAnimations();
     code = document.getElementById("editor").value;
-    console.log(code);
-    console.log(document.getElementById("canvas"));
     usrCode = new Function(code);
     usrCode();
     resetAnimation();    
@@ -37,7 +35,7 @@ async function saveSVG(){
     // create a FileSystemWritableFileStream to write to
     const writableStream = await newHandle.createWritable();
     let file = "<svg version='1.1' xmlns='http://www.w3.org/2000/svg' width='1000' height='1000'>"+"<style></style>"+document.getElementById("canvas").innerHTML+"</svg>";
-    console.log(file);
+    
     // write our file
     await writableStream.write(file);
 
@@ -48,6 +46,7 @@ async function saveSVG(){
 //////////
 // API //
 ////////
+
 class Canvas{
     constructor (){
         this.background = "white";
@@ -65,9 +64,9 @@ class Shape{
         this.canvas = document.getElementById("canvas");
         this.name = id;
         this.self = document.getElementById(id);
-        this.bgcolor =  "black";
-        this.bdrcolor = "black";
-        this.bdrsize = "1px";
+        this.bgcolor;
+        this.bdrcolor;
+        this.bdrsize;
     }
 
     setBG(bgcolor){
@@ -83,16 +82,15 @@ class Shape{
     }
 
     animate(name, attributename, value, time, repeat, begin ="0s"){
-        let animate = document.createElement("animate");
+        let animate = document.createElementNS("http://www.w3.org/2000/svg","animate");
         animate.setAttribute("id", name);
-        animate.setAttribute("attributeName", attributename);
+        animate.setAttributeNS(null,"attributeName", attributename);
         animate.setAttribute("values", value);
         animate.setAttribute("dur", time);
-        animate.setAttribute("repeactCount", repeat);
+        animate.setAttributeNS(null,"repeatCount", repeat);
         animate.setAttribute("begin", begin);
         animate.setAttribute("restart", "always");
-
-        // this.self.innerHTML += "<animate id = "+name+" attributeName = "+attributename+" values = "+value+" dur = "+time+" repeatCount = "+repeat+" begin = "+ begin +" restart = 'always' />";
+        this.self.appendChild(animate);
     }
 
     move(name = "",x, y, time, repeat, begin = "0s"){
@@ -105,7 +103,12 @@ class Shape{
         this.animate("stroke-dashoffset", String(this.self.getTotalLength())+";0", time, repeat, begin, name);
     }
 
-    set(attributename, value, begin){
+    set(attributename, value, begin="0s"){
+        // let set = document.createElementNS("http://www.w3.org/2000/svg", "set");
+        // set.setAttributeNS(null, "attributeName", attributename);
+        // set.setAttribute("to", value);
+        // set.setAttribute("begin", begin);
+        // this.self.appendChild(set);
         this.self.innerHTML += "<set attributeName = "+attributename+" to = "+value+" begin = "+begin+"> </set>";
     }
 }
@@ -126,8 +129,13 @@ class Circle extends Shape{
         this.bdrcolor = "black";
         this.bdrsize = "1px"; //bdr stands for Border
         
-        this.canvas.innerHTML += "<circle id='"+this.name+"' ,r = "+this.radius+" , cx = "+this.x+" , cy = "+ this.y + "></circle> "; // intializing the element
-        this.self = document.getElementById(this.name);
+        this.self = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        this.self.setAttribute("id", this.name);
+        this.self.setAttribute("r", this.radius);
+        this.self.setAttribute("cx", this.x);
+        this.self.setAttribute("cy", this.y);
+        this.canvas.appendChild(this.self);
+
     }
 }
 
@@ -149,8 +157,14 @@ class Ellipse extends Shape{
         this.bdrsize; //bdr stands for Border
         this.bgcolor; //bg stands for Background
 
-        this.canvas.innerHTML += "<ellipse id = "+this.name+" rx = "+this.rx+" ry = "+this.ry+"  cx = "+this.x+" cy = "+this.y+" ></ellipse>";
-        this.self = document.getElementById(this.name);
+        this.self = document.createElementNS("http://www.w3.org/2000/svg", "ellipse");
+        this.self.setAttribute("id", this.name);
+        this.self.setAttribute("rx", this.rx);
+        this.self.setAttribute("ry", this.ry);
+        this.self.setAttribute("cx", this.x);
+        this.self.setAttribute("cy", this.y);
+
+        this.canvas.appendChild(this.self);
 
     }
 }
@@ -172,11 +186,19 @@ class Rectangle extends Shape{
         this.bdrcolor; //bdr stands for Border
         this.bdrsize; //bdr stands for Border
 
-        this.canvas.innerHTML += "<rect id = "+this.name+" x ="+ this.x +" y = "+this.y +" height = "+this.height+" width = "+this.breadth+" ></rect>";
-        this.self = document.getElementById(this.name);
+        this.self = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+        this.self.setAttribute("id", name);
+        this.self.setAttribute("x", this.x);
+        this.self.setAttribute("y", this.y);
+        this.self.setAttribute("height", this.height);
+        this.self.setAttribute("width", this.breadth);
+
+        this.canvas.appendChild(this.self);
         
     }
+
     setRadius(r){
+        
         this.rx = r;
         this.ry = r;
         this.self.setAttribute("rx", this.rx);
@@ -194,8 +216,11 @@ class Polygon extends Shape{
         this.name = name;
         this.points = points; 
 
-        this.canvas.innerHTML += "<polygon id = "+this.name+"  points = '"+this.points+"' />";
-        this.self = document.getElementById(this.name);
+        this.self = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+        this.self.setAttribute("id", this.name);
+        this.self.setAttribute("points", this.points);
+
+        this.canvas.appendChild(this.self);
 
     }
 }
@@ -211,8 +236,11 @@ class Polyline extends Shape{
         this.name = name;
         this.points = points;
 
-        this.canvas.innerHTML += "<polyline id = "+this.name+"  points = '"+this.points+"' />";
-        this.self = document.getElementById(this.name);
+        this.self = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+        this.self.setAttribute("id", this.name);
+        this.self.setAttribute("points", this.points);
+
+        this.canvas.appendChild(this.self);
 
     }
 }
@@ -228,8 +256,11 @@ class Path extends Shape{
         this.name = name;
         this.path = path;
 
-        this.canvas.innerHTML += "<path id = "+this.name+" d = '"+this.path+"' ></path>";
-        this.self = document.getElementById(this.name);
+        this.self = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        this.self.setAttribute("id", this.name);
+        this.self.setAttribute("d", this.path);
+
+        this.canvas.appendChild(this.self);
 
     }
 }
@@ -245,8 +276,13 @@ class Text extends Shape{
         this.name = name;
         this.text = text;
 
-        this.canvas.innerHTML += "<text x = "+x+", y = "+y+", id = "+name+">"+this.text+"</text>";
-        this.self = document.getElementById(this.name);
+        this.self = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        this.self.setAttribute("id", this.name);
+        this.self.setAttribute("x", this.y);
+        this.self.setAttribute("x", this.y);
+        this.self.innerHTML = this.text;
+
+        this.canvas.appendChild(this.self);
         
     }
 
