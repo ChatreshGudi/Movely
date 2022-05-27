@@ -83,7 +83,16 @@ class Shape{
     }
 
     animate(name, attributename, value, time, repeat, begin ="0s"){
-        this.self.innerHTML += "<animate id = "+name+" attributeName = "+attributename+" values = "+value+" dur = "+time+" repeatCount = "+repeat+" begin = "+ begin +" restart = 'always' />";
+        let animate = document.createElement("animate");
+        animate.setAttribute("id", name);
+        animate.setAttribute("attributeName", attributename);
+        animate.setAttribute("values", value);
+        animate.setAttribute("dur", time);
+        animate.setAttribute("repeactCount", repeat);
+        animate.setAttribute("begin", begin);
+        animate.setAttribute("restart", "always");
+
+        // this.self.innerHTML += "<animate id = "+name+" attributeName = "+attributename+" values = "+value+" dur = "+time+" repeatCount = "+repeat+" begin = "+ begin +" restart = 'always' />";
     }
 
     move(name = "",x, y, time, repeat, begin = "0s"){
