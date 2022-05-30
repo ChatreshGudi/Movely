@@ -1,67 +1,19 @@
-function resetCanvas(){
-    canvas = document.getElementById("canvas");
-    canvas.innerHTML = "";
-}
-
-function resetAnimation(){
-    document.querySelectorAll("animate").forEach(element => {
-        element.beginElement();
-    });
-}
-
-function run(){
-    resetCanvas();
-    document.getElementById("canvas").unpauseAnimations();
-    code = document.getElementById("editor").value;
-    usrCode = new Function(code);
-    usrCode();
-    resetAnimation();    
-}
-
-function stop(){
-    canvas = document.getElementById("canvas");
-    canvas.pauseAnimations();
-}
-
-async function saveSVG(){
-    const newHandle = await window.showSaveFilePicker({
-        types: [{
-            description: 'Standard Vector Graphics file',
-            accept: {'svg/plain': ['.svg']},
-          }],
-        suggestedName:'Animation.svg'
-      });
-
-    // create a FileSystemWritableFileStream to write to
-    const writableStream = await newHandle.createWritable();
-    let file = "<svg version='1.1' xmlns='http://www.w3.org/2000/svg' width='1000' height='1000'>"+"<style></style>"+document.getElementById("canvas").innerHTML+"</svg>";
-    
-    // write our file
-    await writableStream.write(file);
-
-    // close the file and write the contents to disk.
-    await writableStream.close();
-}
-
-//////////
-// API //
-////////
-
 class Canvas{
-    constructor (){
+    constructor (id){
+        this.name = id;
         this.background = "white";
-        this.canvas = document.getElementById("canvas");
+        this.self = document.getElementById(this.name);
     }
 
     setBG(bgcolor){
         this.background = bgcolor;
-        this.canvas.style["background"] = this.background;
+        this.self.style["background"] = this.background;
     }
 }
 
 class Shape{
-    constructor(id){
-        this.canvas = document.getElementById("canvas");
+    constructor(canvas, id){
+        this.canvas = document.getElementById(canvas);
         this.name = id;
         this.self = document.getElementById(id);
         this.bgcolor;
@@ -93,6 +45,26 @@ class Shape{
         this.self.appendChild(animate);
     }
 
+    transform(name, attributename, type, from, to, repeat, begin="0s"){
+        let transform = document.createElementNS("animateTransform");
+        transform.setAttribute("id", name);
+        transform.setAttributeNS(null, "attributeName", attributename);
+        transform.setAttribute("type", type);
+        transform.setAttribute("from", from);
+        transform.setAttribute("to", to);
+        transform.setAttribute("repeat", repeat);
+        transform.setAttribute("begin", begin);
+        this.self.appendChild(transform);
+    }
+
+    rotate(name, fromAngle, fromPointX, fromPointY, toAngle, toPointX, toPointY, repeat, begin = "0s"){
+        this.transform(name, "transform", "rotate", toString(fromAngle)+toString(fromPointX)+toString(fromPointY), toString(toAngle)+toString(toPointX)+toString(toPointY), repeat, begin);
+    }
+
+    simpleRotate(name, begin, end, pointX, pointY, repeat, begin="0s"){
+        this.rotate(name, begin, pointX, pointY, end, pointX, pointY, repeat, begin);
+    }
+
     move(name = "",x, y, time, repeat, begin = "0s"){
         this.animate("x", String(this.x+x), time, repeat, begin, name);
         this.animate("y", String(this.y+y), time, repeat, begin, name);
@@ -104,20 +76,20 @@ class Shape{
     }
 
     set(attributename, value, begin="0s"){
-        // let set = document.createElementNS("http://www.w3.org/2000/svg", "set");
-        // set.setAttributeNS(null, "attributeName", attributename);
-        // set.setAttribute("to", value);
-        // set.setAttribute("begin", begin);
-        // this.self.appendChild(set);
-        this.self.innerHTML += "<set attributeName = "+attributename+" to = "+value+" begin = "+begin+"> </set>";
+        let set = document.createElementNS("http://www.w3.org/2000/svg", "set");
+        set.setAttributeNS(null, "attributeName", attributename);
+        set.setAttribute("to", value);
+        set.setAttribute("begin", begin);
+        this.self.appendChild(set);
+        // this.self.innerHTML += "<set attributeName = "+attributename+" to = "+value+" begin = "+begin+"> </set>";
     }
 }
 
 class Circle extends Shape{
-    constructor(name, radius, x, y){
+    constructor(canvas, name, radius, x, y){
 
         super();
-        this.canvas = document.getElementById("canvas");
+        this.canvas = document.getElementById(canvas);
         
         // Initializing the properties
         
@@ -140,10 +112,10 @@ class Circle extends Shape{
 }
 
 class Ellipse extends Shape{
-    constructor(name, rx, ry, x, y){
+    constructor(canvas, name, rx, ry, x, y){
         
         super();
-        this.canvas = document.getElementById("canvas");
+        this.canvas = document.getElementById(canvas);
 
         // Initializing the properties
         
@@ -170,10 +142,10 @@ class Ellipse extends Shape{
 }
 
 class Rectangle extends Shape{
-    constructor(name, height, breadth, x, y){
+    constructor(canvas, name, height, breadth, x, y){
 
         super();
-        this.canvas = document.getElementById("canvas");
+        this.canvas = document.getElementById(canvas);
         
         // Initializing the properties
         
@@ -206,10 +178,10 @@ class Rectangle extends Shape{
 }
 
 class Polygon extends Shape{
-    constructor(name, points){
+    constructor(canvas, name, points){
         
         super();
-        this.canvas = document.getElementById("canvas");
+        this.canvas = document.getElementById(canvas);
 
         // Initializing the properties
         
@@ -226,10 +198,10 @@ class Polygon extends Shape{
 }
 
 class Polyline extends Shape{
-    constructor(name, points){
+    constructor(canvas, name, points){
         
         super();
-        this.canvas = document.getElementById("canvas");
+        this.canvas = document.getElementById(canvas);
 
         // Initializing the properties
         
@@ -246,10 +218,10 @@ class Polyline extends Shape{
 }
 
 class Path extends Shape{
-    constructor(name, path){
+    constructor(canvas, name, path){
         
         super();
-        this.canvas = document.getElementById("canvas");
+        this.canvas = document.getElementById(canvas);
         
         // Initializing the properties
 
@@ -266,15 +238,17 @@ class Path extends Shape{
 }
 
 class Text extends Shape{
-    constructor(name, text, x, y){
+    constructor(canvas, name, text, x, y){
 
         super();
-        this.canvas = document.getElementById("canvas");
+        this.canvas = document.getElementById(canvas);
 
         // Initializing the properties
 
         this.name = name;
         this.text = text;
+        this.x = x;
+        this.y = y;
 
         this.self = document.createElementNS("http://www.w3.org/2000/svg", "text");
         this.self.setAttribute("id", this.name);

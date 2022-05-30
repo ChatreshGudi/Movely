@@ -1,18 +1,21 @@
-# Animator.JS
+# Movely.JS
 
-## Objective
-- This is like a code playground for beginner's to learn javascript.
-- You can animate svg elements using javascript and have fun.
-- You can also use the code to create your own animations.
+## Objective: 
+- To provide a way to animate svg elements using javascript.
+- To provide a code playground for beginner's to learn to animate svg elements using js.
 
-## Features
-- You can create animations using javascript.
-- You can download the animated svg file.
-- You can save the javascript file.
-> ### Features to be added:
-> - Uploading an svg created using vector designing aplications like Adobe Illustrator and Inkscape.
+## Features: 
+### Existing: 
+- You can create svg animated using javascript.
+- You can download the animated svg file. [^1]
+- You can save the javascript file. [^1]
+### Coming Soon:
+- Uploading an svg created using vector designing aplications like Adobe Illustrator and Inkscape.
+- 
 
-## Status
+## Status: 
 - This is a work in progress.
 - It is currently in alpha stage.
 - Some features are not yet implemented properly.
+
+[^1] : Using the Editor

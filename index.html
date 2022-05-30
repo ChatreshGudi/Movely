@@ -1,31 +1,53 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" href="style.css">
-        <title>
-            Movely.js -[Editor]
-        </title>
-        <style>
-        </style>
-    </head>
-    <body>
-        <div id="Title_Bar">Movely.js</div>
-        <div id= "workplace">
-            <div>
-                <div id="Editor_Head">
-                    Code Editor
-                    <button class = "button" onclick="stop();">Stop</button>
-                    <button class = "button" onclick="run();">Run</button>
-                </div>
-                <textarea id = "editor" spellcheck="false"></textarea>
-            </div>
-            <svg id="canvas" >
-            </svg>
-        </div>
-        <div class = "OptionBar">
-            <button onclick = "saveSVG();">Download SVG</button>
-            <button>Download JavaScript</button>
-        </div>
-        <script src="script.js"></script>
-    </body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movely</title>
+    <style>
+        html,body{
+            margin: 0px;
+            padding: 0px;
+        }
+        .header{
+            font-family: Arial, Helvetica, sans-serif;
+            
+        }
+        .headerdiv{
+            color:white;
+            background-color: rgb(24, 147, 255);
+            padding: 10px;
+            border: none;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            box-shadow: 0px 0px 5px black;
+            display: flex;
+        }
+        #Logo{
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+  <div class = "headerdiv">
+      <div>
+        <h1 class = "header">Movely JS</h1>
+        <p class = "header">A javascript library to animate svg elements.</p>
+      </div>
+      <svg id = "Logo"></svg>
+  </div>  
+  <div>
+      <p>Try it in your Browser!</p>
+      <a href="./Editor/editor.html">Open Editor</a>
+  </div>
+  <script src = "Lib.js"></script>
+  <script>
+      const logo = new Canvas("Logo");
+      const square = new Rectangle("Logo", "square", 50, 50, 50, 50);
+      square.setRadius(10);
+      square.setBG("white");
+    //   square.simplerotate("rotate", 0, 360, 50, 50, "indefinite");
+  </script>
+</body>
 </html>
