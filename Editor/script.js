@@ -1,3 +1,7 @@
+let code = 'let hello = "hello"';
+code = enclose(code, 'let', 'font', {'color': '#FAFAFA'});
+console.log(code);
+
 function resetCanvas(){
     canvas = document.getElementById("canvas");
     canvas.innerHTML = "";
