@@ -70,6 +70,7 @@ button.button:hover{
     border: solid 1px rgb(0, 174, 255);
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 #canvas{

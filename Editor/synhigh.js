@@ -52,7 +52,7 @@ function detectSTR(code){
     return strings;
 }
 
-function highlight(code, dict){
+function highlight(code, dict, strcolor){
     for (i in dict){
         words = dict[i]
         let color = i;
@@ -64,7 +64,7 @@ function highlight(code, dict){
     let strings = detectSTR(code);
     console.log(strings);
     for (let i = 0; i<strings.length; i++){
-        code = enclose(code, strings[i], 'font', {'color':'#00FF00'});
+        code = enclose(code, strings[i], 'font', {'color':strcolor});
     }
     return code;
 }

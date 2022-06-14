@@ -1,6 +1,41 @@
-let code = 'let hello = "hello"; const world = "world"; function run(){console.log("hello, running"));';
-code = highlight(code, {'#F0FF00':['let', 'const', 'var'], '#FF0000': ['function', ';', "(.*?)"]});
-// document.getElementById("editor").innerHTML = code;
+const editor = document.getElementById("editor");
+
+function setCaretPosition(ctrl, pos) {
+    // Modern browsers
+    if (ctrl.setSelectionRange) {
+      ctrl.focus();
+      ctrl.setSelectionRange(pos, pos);
+    
+    // IE8 and below
+    } else if (ctrl.createTextRange) {
+      var range = ctrl.createTextRange();
+      range.collapse(true);
+      range.moveEnd('character', pos);
+      range.moveStart('character', pos);
+      range.select();
+    }
+}
+
+function updateCode(){
+    let pos = editor.selectionSTART;
+    document.getElementById("editor").innerHTML = highlight(document.getElementById("editor").innerText, {'#0737f7':['let', 'const', 'var', 'new', 'function', 'async', 'class', 'constructor', 'this', 'super', 'null', 'extends'], '#ff03ff': ['{', '}', '(', ')', ';'], '#c900bf':['if', 'for', 'while'], '#32c900':['"', "'"]}, '#32c900');
+    console.log(pos);
+    setCaretPosition(editor, pos);
+
+    // var range = document.createRange();
+    // let set = window.getSelection();
+    // range.setStart(editor.childNodes[0], pos);
+    // set.removeAllRanges();
+    // range.selectNodeContents(editor);
+    // range.collapse(false);
+    // set.addRange(range);
+    // editor.focus();
+    // range.collapse(true);
+    // set.addRange(range);
+    // editor.focus();
+}
+
+updateCode();
 
 function resetCanvas(){
     canvas = document.getElementById("canvas");
