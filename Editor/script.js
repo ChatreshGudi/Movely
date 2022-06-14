@@ -1,6 +1,6 @@
-let code = 'let hello = "hello"';
-code = enclose(code, 'let', 'font', {'color': '#FAFAFA'});
-console.log(code);
+let code = 'let hello = "hello"; const world = "world"; function run(){console.log("hello, running"));';
+code = highlight(code, {'#F0FF00':['let', 'const', 'var'], '#FF0000': ['function', ';', "(.*?)"]});
+// document.getElementById("editor").innerHTML = code;
 
 function resetCanvas(){
     canvas = document.getElementById("canvas");
