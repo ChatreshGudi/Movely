@@ -4,7 +4,7 @@
 var editor = ace.edit("editor");
 editor.setTheme("ace/theme/textmate");
 editor.session.setMode("ace/mode/javascript");
-editor.setFontSize(17);
+editor.setFontSize(15);
 
 function resetCanvas(){
     canvas = document.getElementById("canvas");

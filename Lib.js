@@ -1,7 +1,6 @@
 class Canvas{
     constructor (id){
         this.name = id;
-        this.background = "white";
         this.self = document.getElementById(this.name);
     }
 
@@ -45,24 +44,26 @@ class Shape{
         this.self.appendChild(animate);
     }
 
-    transform(name, attributename, type, from, to, repeat, begin="0s"){
-        let transform = document.createElementNS("animateTransform");
+    transform(name, attributename, type, from, to, time, repeat, begin="0s"){
+        let transform = document.createElementNS("http://www.w3.org/2000/svg", "animateTransform");
         transform.setAttribute("id", name);
-        transform.setAttributeNS(null, "attributeName", attributename);
+        transform.setAttributeNS("http://www.w3.org/2000/svg", "attributeName", attributename);
         transform.setAttribute("type", type);
         transform.setAttribute("from", from);
         transform.setAttribute("to", to);
         transform.setAttribute("repeat", repeat);
         transform.setAttribute("begin", begin);
+        transform.setAttribute("dur", time);
         this.self.appendChild(transform);
     }
 
-    rotate(name, fromAngle, fromPointX, fromPointY, toAngle, toPointX, toPointY, repeat, begin = "0s"){
-        this.transform(name, "transform", "rotate", toString(fromAngle)+toString(fromPointX)+toString(fromPointY), toString(toAngle)+toString(toPointX)+toString(toPointY), repeat, begin);
+    rotate(name, fromAngle, fromPointX, fromPointY, toAngle, toPointX, toPointY, time, repeat, begin = "0s"){
+        console.log(fromAngle.toString()+fromPointX.toString()+fromPointY.toString(),  toAngle.toString()+toPointX.toString()+toPointY.toString());
+        this.transform(name, "transform", "rotate", fromAngle.toString()+" "+fromPointX.toString()+" "+fromPointY.toString(), toAngle.toString()+" "+toPointX.toString()+" "+toPointY.toString(), time, repeat, begin);
     }
 
-    simpleRotate(name, begin, end, pointX, pointY, repeat, begin="0s"){
-        this.rotate(name, begin, pointX, pointY, end, pointX, pointY, repeat, begin);
+    simpleRotate(name, beginAngle, endAngle, pointX, pointY, time, repeat, begin="0s"){
+        this.rotate(name, beginAngle, pointX, pointY, endAngle, pointX, pointY, time, repeat, begin);
     }
 
     move(name = "",x, y, time, repeat, begin = "0s"){
