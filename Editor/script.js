@@ -4,7 +4,9 @@
 var editor = ace.edit("editor");
 editor.setTheme("ace/theme/textmate");
 editor.session.setMode("ace/mode/javascript");
-editor.setFontSize(15);
+editor.setFontSize(17);
+
+
 
 function resetCanvas(){
     canvas = document.getElementById("canvas");
@@ -309,16 +311,12 @@ class Text extends Shape{
         
         this.self = document.createElementNS("http://www.w3.org/2000/svg", "text");
         this.self.setAttribute("id", this.name);
-        this.self.setAttribute("x", this.x);
-        this.self.setAttribute("y", this.y);
+        this.self.setAttribute("x", this.y);
+        this.self.setAttribute("x", this.y);
         this.self.innerHTML = this.text;
 
         this.canvas.appendChild(this.self);
         
-    }
-
-    setFontSize(fontsize){
-        this.self.style['fontsize'] = fontsize;
     }
 
     stroke( time, repeat, name, begin ="0s"){

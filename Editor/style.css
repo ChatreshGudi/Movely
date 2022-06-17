@@ -130,7 +130,7 @@ div.OptionBar button:hover{
     
     div#Title_Bar{
         height: 100px;
-        font-size: 30px;
+        font-size: 50px;
     }
 
     div#workplace{
@@ -144,9 +144,19 @@ div.OptionBar button:hover{
         width:100%;
         font-size: 30px;
     }
+
+    div#editor{
+        height: 90vh;
+        width: 100%;
+        font-size: 30px;
+    }
+
     button{
         font-size: 24px;
     }
 
+    div.OptionBar{
+        display: none;
+    }
 
 }
