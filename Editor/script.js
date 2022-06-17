@@ -1,41 +1,10 @@
-const editor = document.getElementById("editor");
 
-function setCaretPosition(ctrl, pos) {
-    // Modern browsers
-    if (ctrl.setSelectionRange) {
-      ctrl.focus();
-      ctrl.setSelectionRange(pos, pos);
-    
-    // IE8 and below
-    } else if (ctrl.createTextRange) {
-      var range = ctrl.createTextRange();
-      range.collapse(true);
-      range.moveEnd('character', pos);
-      range.moveStart('character', pos);
-      range.select();
-    }
-}
+// Editor Code
 
-function updateCode(){
-    let pos = editor.selectionSTART;
-    document.getElementById("editor").innerHTML = highlight(document.getElementById("editor").innerText, {'#0737f7':['let', 'const', 'var', 'new', 'function', 'async', 'class', 'constructor', 'this', 'super', 'null', 'extends'], '#ff03ff': ['{', '}', '(', ')', ';'], '#c900bf':['if', 'for', 'while'], '#32c900':['"', "'"]}, '#32c900');
-    console.log(pos);
-    setCaretPosition(editor, pos);
-
-    // var range = document.createRange();
-    // let set = window.getSelection();
-    // range.setStart(editor.childNodes[0], pos);
-    // set.removeAllRanges();
-    // range.selectNodeContents(editor);
-    // range.collapse(false);
-    // set.addRange(range);
-    // editor.focus();
-    // range.collapse(true);
-    // set.addRange(range);
-    // editor.focus();
-}
-
-updateCode();
+var editor = ace.edit("editor");
+editor.setTheme("ace/theme/textmate");
+editor.session.setMode("ace/mode/javascript");
+editor.setFontSize(17);
 
 function resetCanvas(){
     canvas = document.getElementById("canvas");
@@ -51,7 +20,8 @@ function resetAnimation(){
 function run(){
     resetCanvas();
     document.getElementById("canvas").unpauseAnimations();
-    code = document.getElementById("editor").value;
+    code = document.getElementById("editor").innerText;
+    console.log(code);
     usrCode = new Function(code);
     usrCode();
     resetAnimation();    
