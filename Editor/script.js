@@ -142,6 +142,18 @@ class Shape{
         // this.self.appendChild(set);
         this.self.innerHTML += "<set attributeName = "+attributename+" to = "+value+" begin = "+begin+"> </set>";
     }
+
+    setRotation(angle){
+        this.self.setAttribute('transform', 'rotate('+angle+')')
+    }
+
+    rotate(name, fromAngle, fromPointX, fromPointY, toAngle, toPointX, toPointY, time, repeat, begin = "0s"){
+        console.log(fromAngle.toString()+fromPointX.toString()+fromPointY.toString(),  toAngle.toString()+toPointX.toString()+toPointY.toString());
+        this.transform(name, "transform", "rotate", fromAngle.toString()+" "+fromPointX.toString()+" "+fromPointY.toString(), toAngle.toString()+" "+toPointX.toString()+" "+toPointY.toString(), time, repeat, begin);
+    }
+    simpleRotate(name, beginAngle, endAngle, pointX, pointY, time, repeat, begin="0s"){
+        this.rotate(name, beginAngle, pointX, pointY, endAngle, pointX, pointY, time, repeat, begin);
+    }
 }
 
 class Circle extends Shape{

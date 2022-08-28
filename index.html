@@ -9,6 +9,7 @@
         html,body{
             margin: 0px;
             padding: 0px;
+            height: 100%;
         }
         .header{
             font-family: Arial, Helvetica, sans-serif;
@@ -23,18 +24,21 @@
             border-bottom-right-radius: 10px;
             box-shadow: 0px 0px 5px black;
             display: flex;
+            height: 100%;
         }
         #Logo{
             border: 1px solid black;
+            height: 100%;
+            width: 100%;
         }
     </style>
 </head>
 <body>
   <div class = "headerdiv">
-      <div>
+      <!-- <div>
         <h1 class = "header">Movely JS</h1>
         <p class = "header">A javascript library to animate svg elements.</p>
-      </div>
+      </div> -->
       <svg id = "Logo"></svg>
   </div>  
   <div>
@@ -43,11 +47,10 @@
   </div>
   <script src = "Lib.js"></script>
   <script defer >
-      const logo = new Canvas("Logo");
-      const square = new Rectangle("Logo", "square", 50, 50, 50, 50);
-      square.setRadius(10);
-      square.setBG("white");
-      square.simpleRotate("rotate", 0, 360, 50, 50, "10s", "indefinite");
+    const logo = new Canvas("Logo");
+    const M1 = new Rectangle("Logo", "M1", 200, 20, 50, 50);
+    M1.setRadius(10);
+    M1.setBG("white");
   </script>
 </body>
 </html>

@@ -84,6 +84,10 @@ class Shape{
         this.self.appendChild(set);
         // this.self.innerHTML += "<set attributeName = "+attributename+" to = "+value+" begin = "+begin+"> </set>";
     }
+
+    setRotation(angle){
+        this.self.setAttribute('transform', 'rotate('+angle+')')
+    }
 }
 
 class Circle extends Shape{
